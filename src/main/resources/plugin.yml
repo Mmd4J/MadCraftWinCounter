@@ -1,0 +1,4 @@
+name: MadCraftWinCounter
+version: '${project.version}'
+main: me.madcraft.madcraftwincounter.MadCraftWinCounter
+description: Madcraft bedwars win counter

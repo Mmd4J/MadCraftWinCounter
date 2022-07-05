@@ -1,0 +1,9 @@
+type: SQLite
+mysql:
+  user: "root"
+  pass: ""
+  name: "madcraft"
+  ip: "localhost"
+  port: 3306
+sqlite:
+  name: "madcraft"
