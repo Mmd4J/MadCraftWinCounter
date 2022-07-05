@@ -10,7 +10,7 @@ public interface Database {
     void getPlayer(MadPlayer player);
     static Database getDatabase(){
         Database database = null;
-        switch (config.getString("database.type")){
+        switch (config.getString("type")){
             case "SQLite":
                 database = SQLite.get();
                 break;
