@@ -10,11 +10,11 @@ public class MySQL implements Database{
 
 
     public MySQL() {
-        String user = config.getString("database.user");
-        String pass = config.getString("database.pass");
-        String name = config.getString("database.name");
-        String ip = config.getString("database.ip");
-        int port = config.getInt("database.port");
+        String user = config.getString("mysql.user");
+        String pass = config.getString("mysql.pass");
+        String name = config.getString("mysql.name");
+        String ip = config.getString("mysql.ip");
+        int port = config.getInt("mysql.port");
         try {
             connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + name, user, pass);
             Statement stmt = connection.createStatement();
