@@ -45,7 +45,7 @@ public class MySQL implements Database{
     @Override
     public void update(MadPlayer player) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("UPDATE OR IGNORE players SET wins = ? WHERE uuid = ?;");
+            PreparedStatement stmt = connection.prepareStatement("UPDATE players SET wins = ? WHERE uuid = ?;");
             stmt.setInt(1, player.getWins());
             stmt.setString(2, player.getUuid().toString());
             stmt.executeUpdate();
