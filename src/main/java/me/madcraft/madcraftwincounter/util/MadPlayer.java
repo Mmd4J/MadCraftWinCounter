@@ -15,6 +15,7 @@ public class MadPlayer {
     static Map<UUID,MadPlayer> madPlayerMap = new HashMap<>();
     public MadPlayer(UUID uuid){
         this.uuid = uuid;
+        Database.getDatabase().insert(this);
         Database.getDatabase().getPlayer(this);
 
     }

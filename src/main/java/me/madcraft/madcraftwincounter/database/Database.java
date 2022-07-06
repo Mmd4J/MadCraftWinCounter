@@ -3,8 +3,10 @@ package me.madcraft.madcraftwincounter.database;
 import me.madcraft.madcraftwincounter.util.Config;
 import me.madcraft.madcraftwincounter.util.MadPlayer;
 
+import java.sql.Connection;
+
 public interface Database {
-    Config config = new Config("database.yml");
+    Config config = Config.getConfig("database.yml");
     void insert(MadPlayer player);
     void update(MadPlayer player);
     void getPlayer(MadPlayer player);
@@ -20,4 +22,5 @@ public interface Database {
         }
         return database;
     }
+    Connection getConnection();
 }

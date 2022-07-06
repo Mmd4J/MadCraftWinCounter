@@ -28,8 +28,9 @@ public class SQLite implements Database {
     @Override
     public void insert(MadPlayer player) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("INSERT OR IGNORE INTO players(uuid) VALUES (?);");
+            PreparedStatement stmt = connection.prepareStatement("INSERT OR IGNORE INTO players(uuid,wins) VALUES (?,?);");
             stmt.setString(1, player.getUuid().toString());
+            stmt.setInt(2,player.getWins());
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -53,7 +54,7 @@ public class SQLite implements Database {
     @Override
     public void getPlayer(MadPlayer player) {
     try{
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?;");
         preparedStatement.setString(1,player.getUuid().toString());
         ResultSet rs = preparedStatement.executeQuery();
         player.setWins(rs.getInt("wins"));
@@ -61,6 +62,11 @@ public class SQLite implements Database {
     }catch (SQLException e){
         e.printStackTrace();
     }
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 
 }

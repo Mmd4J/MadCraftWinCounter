@@ -5,14 +5,17 @@ import me.madcraft.madcraftwincounter.MadCraftWinCounter;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Config extends YamlConfiguration
 {
     private final MadCraftWinCounter plugin;
     @Getter
     private final File file;
+    private static Map<String,Config> configMap = new HashMap<>();
 
-    public Config(File parent, String name) {
+    private Config(File parent, String name) {
         this.plugin = MadCraftWinCounter.getInstance();
         this.file = new File(parent, name);
 
@@ -23,7 +26,7 @@ public class Config extends YamlConfiguration
         load();
     }
 
-    public Config(String name) {
+    private Config(String name) {
         this(MadCraftWinCounter.getInstance().getDataFolder(), name);
     }
 
@@ -33,6 +36,11 @@ public class Config extends YamlConfiguration
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static Config getConfig(String name){
+        if (!configMap.containsKey(name)) configMap.put(name,new Config(name));
+        return configMap.get(name);
     }
 
     public void save() {

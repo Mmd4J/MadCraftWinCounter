@@ -18,7 +18,7 @@ public class MySQL implements Database{
         try {
             connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + name, user, pass);
             Statement stmt = connection.createStatement();
-            stmt.execute("CREATE TABLE IF NOT EXISTS players(uuid CHAR(36) PRIMARY KEY,wins INT DEFAULT 0);");
+            stmt.execute("CREATE TABLE IF NOT EXISTS players(uuid CHAR(45) PRIMARY KEY,wins INT DEFAULT 0);");
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class MySQL implements Database{
     @Override
     public void insert(MadPlayer player) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("INSERT OR IGNORE INTO players(uuid) VALUES (?);");
+            PreparedStatement stmt = connection.prepareStatement("INSERT OR IGNORE INTO players(uuid) VALUES(?);");
             stmt.setString(1, player.getUuid().toString());
             stmt.executeUpdate();
             stmt.close();
@@ -45,7 +45,7 @@ public class MySQL implements Database{
     @Override
     public void update(MadPlayer player) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("UPDATE players SET wins = ? WHERE uuid = ?;");
+            PreparedStatement stmt = connection.prepareStatement("UPDATE OR IGNORE players SET wins =? WHERE uuid =?;");
             stmt.setInt(1, player.getWins());
             stmt.setString(2, player.getUuid().toString());
             stmt.executeUpdate();
@@ -57,15 +57,21 @@ public class MySQL implements Database{
 
     @Override
     public void getPlayer(MadPlayer player) {
+        ResultSet rs = null;
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid =?;");
             preparedStatement.setString(1,player.getUuid().toString());
-            ResultSet rs = preparedStatement.executeQuery();
-            player.setWins(rs.getInt("wins"));
+            rs = preparedStatement.executeQuery();
+            player.setWins(rs.getInt(1));
             preparedStatement.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 
 }
